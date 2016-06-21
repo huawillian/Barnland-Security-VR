@@ -52,52 +52,41 @@ public class GUI_Controller : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (!enableCanvas) {
-			//disable all gui elements
-			roundText.enabled = false;
-			timeText.enabled = false;
-			pointsText.enabled = false;
-			animalsText.enabled = false;
-			centerText.enabled = false;
-			powerupText.enabled = false;
-			powerupSliderObj.SetActive (false);
-		} else {
-			// do updates for each gui element
-			// if sync is true, get gui values from round manager
-			if (syncWithRoundManager) {
-				roundText.text = "Round " + roundManager.roundNum;
+		// do updates for each gui element
+		// if sync is true, get gui values from round manager
+		if (enableCanvas && syncWithRoundManager) {
+			roundText.text = "Round " + roundManager.roundNum;
 
-				// time Text logic, given floats to 00:00 format
-				int timeLeft = (int)roundManager.timeRoundRemaining;
-				int minutes = (int) Mathf.Floor ( ((float)timeLeft) / 60.0f );
-				int seconds = timeLeft - minutes * 60;
+			// time Text logic, given floats to 00:00 format
+			int timeLeft = (int)roundManager.timeRoundRemaining;
+			int minutes = (int) Mathf.Floor ( ((float)timeLeft) / 60.0f );
+			int seconds = timeLeft - minutes * 60;
 
-				timeText.text = "";
+			timeText.text = "";
 
-				if (minutes.ToString ().Length == 1) {
-					timeText.text += "0";
-					timeText.text += minutes.ToString ();
-				} else {
-					timeText.text += minutes.ToString ();
-				}
+			if (minutes.ToString ().Length == 1) {
+				timeText.text += "0";
+				timeText.text += minutes.ToString ();
+			} else {
+				timeText.text += minutes.ToString ();
+			}
 
-				timeText.text += ":";
+			timeText.text += ":";
 
-				if (seconds.ToString ().Length == 1) {
-					timeText.text += "0";
-					timeText.text += seconds.ToString ();
-				} else {
-					timeText.text += seconds.ToString ();
-				}
+			if (seconds.ToString ().Length == 1) {
+				timeText.text += "0";
+				timeText.text += seconds.ToString ();
+			} else {
+				timeText.text += seconds.ToString ();
+			}
 
-				pointsText.text = roundManager.points.ToString();
-				animalsText.text = roundManager.animalsSaved + " / " + roundManager.animalsNeeded;
-				// CENTER TEXT IS NOT HANDLED HERE, BUT BY COROUTINES CALLED BY MANAGER
-				// POWERUP TEXT IS NOT HANDLED HERE, BUT ALSO BY COROUTINES CALLED BY MANAGER
-				if (!isPowerup) {
-					powerupText.enabled = false;
-					powerupSliderObj.SetActive (false);
-				}
+			pointsText.text = roundManager.points.ToString();
+			animalsText.text = roundManager.animalsSaved + " / " + roundManager.animalsNeeded;
+			// CENTER TEXT IS NOT HANDLED HERE, BUT BY COROUTINES CALLED BY MANAGER
+			// POWERUP TEXT IS NOT HANDLED HERE, BUT ALSO BY COROUTINES CALLED BY MANAGER
+			if (!isPowerup) {
+				powerupText.enabled = false;
+				powerupSliderObj.SetActive (false);
 			}
 		}
 	}
@@ -197,6 +186,13 @@ public class GUI_Controller : MonoBehaviour
 	{
 		// hide all canvas elements
 		enableCanvas = false;
+		roundText.enabled = false;
+		timeText.enabled = false;
+		pointsText.enabled = false;
+		animalsText.enabled = false;
+		centerText.enabled = false;
+		powerupText.enabled = false;
+		powerupSliderObj.SetActive (false);
 		// cancel all coroutines
 		//	e.g. center text
 		//	clear center text queue

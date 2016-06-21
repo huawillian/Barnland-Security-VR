@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{8712FAC1-07C3-225E-68CF-B6EA16A75C25}") = "Barnland-Security-VR", "Assembly-CSharp.csproj", "{6409ED97-6853-5CB4-EE3B-7CCBC2802323}"
+EndProject
+Project("{8712FAC1-07C3-225E-68CF-B6EA16A75C25}") = "Barnland-Security-VR", "Assembly-CSharp-Editor.csproj", "{2CE8CB03-B69D-8D8E-3C23-29CFB24EF425}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6409ED97-6853-5CB4-EE3B-7CCBC2802323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6409ED97-6853-5CB4-EE3B-7CCBC2802323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6409ED97-6853-5CB4-EE3B-7CCBC2802323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6409ED97-6853-5CB4-EE3B-7CCBC2802323}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CE8CB03-B69D-8D8E-3C23-29CFB24EF425}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE8CB03-B69D-8D8E-3C23-29CFB24EF425}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CE8CB03-B69D-8D8E-3C23-29CFB24EF425}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CE8CB03-B69D-8D8E-3C23-29CFB24EF425}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

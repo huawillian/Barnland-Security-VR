@@ -10,7 +10,9 @@ public class Player_Controller_VR : MonoBehaviour
 	// Reference to Player Navigation Controller
 	public GameObject headObj;
 
-	public float playerSpeed = 8.0f;
+	public float playerSpeed = 6.0f;
+	public float playerTractorSpeed = 12.0f;
+	public float speed = 6.0f;
 
 	// COLLIDE WITH POWERUP CALL ROUNDMANAGER POWERUP METHOD
 	// COLLIDE WITH ANIMAL CALL ROUNDMANAGER ANIMAL METHOD
@@ -24,57 +26,42 @@ public class Player_Controller_VR : MonoBehaviour
 	}
 
 	void Update() {
-		Vector3 newVel = headObj.gameObject.transform.forward * playerSpeed * 1.5f;
+		Vector3 newVel = headObj.gameObject.transform.forward * speed;
 		newVel = new Vector3 (newVel.x, 0, newVel.z);
 		this.GetComponent<Rigidbody> ().velocity = newVel;
 	}
 
-	void OnTriggerEnter(Collider other)
+	public void setPlayerSpeed(float spd)
 	{
-		GameObject obj = other.gameObject;
-		string objTag = obj.tag;
-
-		if (objTag.Equals("Animal")) {
-			switch (obj.GetComponent<Animal_Controller> ().type) {
-			case Animal_Controller.ANIMAL_TYPE.CHICKEN:
-				roundManager.eventCollideAnimal ("Chicken");
-				break;
-			case Animal_Controller.ANIMAL_TYPE.PIG:
-				roundManager.eventCollideAnimal ("Pig");
-				break;
-			case Animal_Controller.ANIMAL_TYPE.COW:
-				roundManager.eventCollideAnimal ("Cow");
-				break;
-			default:
-				break;
-			}
-
-			Destroy (other.gameObject);
-		}
-
-		if (objTag.Equals ("Powerup")) {
-			switch (obj.GetComponent<Powerup_Controller> ().type) {
-			case Powerup_Controller.POWERUP_TYPE.BOMB:
-				roundManager.eventCollidePowerup ("Bomb");
-				break;
-			case Powerup_Controller.POWERUP_TYPE.HAY:
-				roundManager.eventCollidePowerup ("Hay");
-				break;
-			case Powerup_Controller.POWERUP_TYPE.TRACTOR:
-				roundManager.eventCollidePowerup ("Tractor");
-				break;
-			default:
-				break;
-			}
-
-			Destroy (other.gameObject);
-		}
-
+		playerSpeed = spd;
+		playerTractorSpeed = 2.0f * spd;
+		speed = playerSpeed;
 	}
 
-	public void setPlayerSpeed(float speed)
+	// Event listeners enable and disable
+	// Set Event Listeners on enable
+	void OnEnable()
 	{
-		playerSpeed = speed;
+		Powerup_Controller.OnTractorPowerUp += EventPowerupTractor;
+	}
+
+	// Remove event listeners on disable
+	void OnDisable()
+	{
+		Powerup_Controller.OnTractorPowerUp -= EventPowerupTractor;
+	}
+
+	private void EventPowerupTractor(float time)
+	{
+		this.StopAllCoroutines ();
+		StartCoroutine (setTractorPowerUp(time));
+	}
+
+	private IEnumerator setTractorPowerUp(float time)
+	{
+		speed = playerTractorSpeed;
+		yield return new WaitForSeconds (time);
+		speed = playerSpeed;
 	}
 
 

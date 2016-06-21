@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{896B9600-EF61-86EE-25BB-4AE69847058F}</ProjectGuid>
+    <ProjectGuid>{6409ED97-6853-5CB4-EE3B-7CCBC2802323}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\EventManager.cs" />
      <Compile Include="Assets\GoogleVR\DemoScenes\ControllerDemo\ControllerDebugInfo.cs" />
      <Compile Include="Assets\GoogleVR\DemoScenes\ControllerDemo\ControllerDemoManager.cs" />
      <Compile Include="Assets\GoogleVR\DemoScenes\HeadsetDemo\FPS.cs" />
@@ -104,7 +105,7 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="Google.ProtocolBuffers">
- <HintPath>C:/Users/Willian/Desktop/Barnland Security/Assets/Plugins/Google.ProtocolBuffers.dll</HintPath>
+ <HintPath>C:/Users/Willian/Desktop/Barnland Security VR Repository/Barnland-Security-VR/Assets/Plugins/Google.ProtocolBuffers.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

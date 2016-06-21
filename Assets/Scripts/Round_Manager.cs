@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Round_Manager : MonoBehaviour {
+	// Events
+	public delegate void Round();
+	public static event Round OnRoundOver;
+
 	// Round States
 	public enum ROUND_STATE{END, START, PLAY};
 	public ROUND_STATE state = ROUND_STATE.END;
@@ -23,7 +28,6 @@ public class Round_Manager : MonoBehaviour {
 	public bool isBomb = false;
 	public bool isTractor = false;
 	public bool isHay = false;
-	public float powerupDuration = 5.0f;
 
 	public GameObject guiObj;
 	private GUI_Controller guiController;
@@ -72,32 +76,52 @@ public class Round_Manager : MonoBehaviour {
 
 		this.startRound (1);
 	}
+
+	// Event listeners enable and disable
+	// Set Event Listeners on enable
+	void OnEnable()
+	{
+		Powerup_Controller.OnHayPowerUp += EventPowerupHay;
+		Powerup_Controller.OnBombPowerUp += EventPowerupBomb;
+		Powerup_Controller.OnTractorPowerUp += EventPowerupTractor;
+		Animal_Controller.OnAnimalSaved += EventAnimalSaved;
+		Animal_Controller.OnAnimalCaptured += EventAnimalCaptured;
+	}
+
+	// Remove event listeners on disable
+	void OnDisable()
+	{
+		Powerup_Controller.OnHayPowerUp -= EventPowerupHay;
+		Powerup_Controller.OnBombPowerUp -= EventPowerupBomb;
+		Powerup_Controller.OnTractorPowerUp -= EventPowerupTractor;
+		Animal_Controller.OnAnimalSaved -= EventAnimalSaved;
+		Animal_Controller.OnAnimalCaptured -= EventAnimalCaptured;
+	}
 	
 	// Update is called once per frame
 	void Update () {
 		timeRoundRemaining = timeEnding - Time.time;
 
-		//Stop player movement if end of round
-		if (state != ROUND_STATE.PLAY) {
-			playerController.setPlayerSpeed (0.0f);
+		if (timeRoundRemaining <= 0 && state == ROUND_STATE.PLAY) {
+			StartCoroutine (ResetGameCoroutine());
 		}
 	}
 
-	public void eventCollideAnimal(string animalType)
+	public void EventAnimalSaved(Animal_Controller.ANIMAL_TYPE type)
 	{
 		// Add Points depending on animal
 		// Change Animals Saved
 		// Check if equals Animals Needed
 		// if so, then enter round over state
 
-		switch (animalType) {
-		case "Cow":
+		switch (type) {
+		case Animal_Controller.ANIMAL_TYPE.COW:
 			points += 10;
 			break;
-		case "Pig":
+		case Animal_Controller.ANIMAL_TYPE.PIG:
 			points += 25;
 			break;
-		case "Chicken":
+		case Animal_Controller.ANIMAL_TYPE.CHICKEN:
 			points += 50;
 			break;
 		default:
@@ -116,98 +140,41 @@ public class Round_Manager : MonoBehaviour {
 		}
 	}
 
-	public void eventCollidePowerup(string powerupType)
+	public void EventAnimalCaptured(Animal_Controller.ANIMAL_TYPE type)
 	{
-		// Add Points
-		// Powerup depending on the powerup
-		// send message to GUI Controller
+		// subtract points?
+		// add multiplier when chaining animal saving?
+	}
 
+	public void EventPowerupHay(float time)
+	{
 		points += 50;
-
-		switch (powerupType) {
-		case "Bomb":
-			// Lower Speed of all aliens for a certain time
-			// Call coroutine
-			StopCoroutine("BombPowerupCoroutine");
-			guiController.addPowerup ("Bomb", powerupDuration);
-			StartCoroutine ("BombPowerupCoroutine");
-			break;
-		case "Tractor":
-			//Increase player speed for a certain time
-			//Call coroutine
-			StopCoroutine("TractorPowerupCoroutine");
-			guiController.addPowerup("Tractor", powerupDuration);
-			StartCoroutine ("TractorPowerupCoroutine");
-			break;
-		case "Hay":
-			//Set all animal agent destination to player for certain time
-			//Call coroutine
-			StopCoroutine("HayPowerupCoroutine");
-			guiController.addPowerup("Hay", powerupDuration);
-			StartCoroutine ("HayPowerupCoroutine");
-			break;
-		default:
-			break;
-		}
+		//Set all animal agent destination to player for certain time
+		guiController.addPowerup("Hay", time);
 	}
 
-	IEnumerator BombPowerupCoroutine()
+	public void EventPowerupBomb(float time)
 	{
-		GameObject[] aliens = GameObject.FindGameObjectsWithTag ("Alien");
-
-		if (aliens.Length == 0) {
-			yield break;
-		}
-
-		foreach (GameObject obj in aliens) {
-			if(obj)
-			{
-				Alien_Controller controller = obj.GetComponent<Alien_Controller> ();
-				controller.moveSpeed = 0.0f;
-			}
-		}
-
-		yield return new WaitForSeconds (powerupDuration);
-
-		foreach (GameObject obj in aliens) {
-			if(obj)
-			{
-				Alien_Controller controller = obj.GetComponent<Alien_Controller> ();
-				controller.moveSpeed = 5.0f;
-			}
-		}
+		// Stun aliens and make them drop animal if captured
+		points += 50;
+		guiController.addPowerup ("Bomb", time);
 	}
 
-	IEnumerator TractorPowerupCoroutine()
+	public void EventPowerupTractor(float time)
 	{
-		playerController.setPlayerSpeed (24.0f);
-
-		yield return new WaitForSeconds (powerupDuration);
-
-		playerController.setPlayerSpeed (8.0f);
+		points += 50;
+		//Increase player speed for a certain time
+		guiController.addPowerup("Tractor", time);
 	}
-
-	IEnumerator HayPowerupCoroutine()
-	{
-		float timeStart = Time.time;
-
-		GameObject[] animals = GameObject.FindGameObjectsWithTag ("Animal");
-
-		while (Time.time < timeStart + powerupDuration) {
-			foreach (GameObject obj in animals) {
-				if (obj) {
-					obj.GetComponent<Animal_Controller> ().setDestinationtoPlayer (playerController.gameObject.transform.position);
-				}
-			}
-			yield return new WaitForSeconds (0.01f);
-		}
-			
-		yield break;
-	}
-
+		
 	public void startRound(int roundNumber)
 	{
 		roundNum = roundNumber;
+
+		if (roundNum >= 21) {
+			StartCoroutine ("EndGameCoroutine");
+		}
+
 		guiController.showCanvas ();
 		StartCoroutine ("StartRoundCoroutine");
 	}
@@ -239,35 +206,49 @@ public class Round_Manager : MonoBehaviour {
 	IEnumerator PlayRoundCoroutine()
 	{
 		state = ROUND_STATE.PLAY;
-		playerController.setPlayerSpeed (8.0f);
+		playerController.setPlayerSpeed (6.0f);
 		yield break;
 	}
 
 	IEnumerator EndRoundCoroutine()
 	{
-		state = ROUND_STATE.END;
+		OnRoundOver ();
 
+		state = ROUND_STATE.END;
+		//Stop player movement if end of round
+		playerController.setPlayerSpeed (0.0f);
 		guiController.addCenterText ("ROUND OVER");
 
-		GameObject[] aliens = GameObject.FindGameObjectsWithTag ("Alien");
-		GameObject[] animals = GameObject.FindGameObjectsWithTag ("Animal");
-		GameObject[] powerups = GameObject.FindGameObjectsWithTag ("Powerup");
-
-		foreach (GameObject obj in aliens)
-			Destroy (obj);
-
-		foreach (GameObject obj in animals)
-			Destroy (obj);
-
-		foreach (GameObject obj in powerups)
-			Destroy (obj);
-
-
 		isSpawnPowerups = false;
-
 		yield return new WaitForSeconds (1.0f);
 
 		startRound ((roundNum + 1));
+	}
+
+	IEnumerator ResetGameCoroutine()
+	{
+		OnRoundOver ();
+		state = ROUND_STATE.END;
+		playerController.setPlayerSpeed (0.0f);
+		guiController.addCenterText ("TIME UP");
+		guiController.addCenterText ("RESET GAME IN 3");
+		guiController.addCenterText ("RESET GAME IN 2");
+		guiController.addCenterText ("RESET GAME IN 1");
+		yield return new WaitForSeconds (5.0f);
+		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+	}
+
+	IEnumerator EndGameCoroutine()
+	{
+		OnRoundOver ();
+		state = ROUND_STATE.END;
+		playerController.setPlayerSpeed (0.0f);
+		guiController.addCenterText ("FINISHED!");
+		guiController.addCenterText ("RESET GAME IN 3");
+		guiController.addCenterText ("RESET GAME IN 2");
+		guiController.addCenterText ("RESET GAME IN 1");
+		yield return new WaitForSeconds (5.0f);
+		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
 	}
 
 	public void spawnAnimals(int num)
