@@ -61,7 +61,7 @@ public class Round_Manager : MonoBehaviour {
 		//GUICONTROLLER addCenterText, setCenterTextInterval, addPowerup, hideCanvas, showCanvas
 
 		playerController = playerObj.GetComponent<Player_Controller_VR> ();
-		//setPlayerSpeed
+		this.playerController.setPlayerSpeed (0.0f);
 
 		this.roundData = this.GetComponent<Round_Data> ().roundData;
 
@@ -74,7 +74,7 @@ public class Round_Manager : MonoBehaviour {
 
 		StartCoroutine ("PowerupSpawnerCoroutine");
 
-		this.startRound (1);
+		//this.startRound (1);
 	}
 
 	// Event listeners enable and disable
@@ -206,7 +206,7 @@ public class Round_Manager : MonoBehaviour {
 	IEnumerator PlayRoundCoroutine()
 	{
 		state = ROUND_STATE.PLAY;
-		playerController.setPlayerSpeed (6.0f);
+		playerController.setPlayerSpeed (8.0f);
 		yield break;
 	}
 
