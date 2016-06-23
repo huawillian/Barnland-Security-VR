@@ -100,6 +100,8 @@ public class GUI_Controller : MonoBehaviour
 
 	public void addCenterText(string textToAdd)
 	{
+		centerText.enabled = true;
+
 		centerTextQueue.Enqueue (textToAdd);
 	}
 
@@ -120,6 +122,8 @@ public class GUI_Controller : MonoBehaviour
 					centerText.text = centerTextDisplayed;
 				} else {
 					centerText.text = "";
+					if (!enableCanvas)
+						centerText.enabled = false;
 				}
 			}
 		}
@@ -197,7 +201,6 @@ public class GUI_Controller : MonoBehaviour
 		//	e.g. center text
 		//	clear center text queue
 		centerTextQueue.Clear();
-
 	}
 
 

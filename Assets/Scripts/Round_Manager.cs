@@ -51,6 +51,8 @@ public class Round_Manager : MonoBehaviour {
 	public GameObject[] alienSpawnLocations;
 	public GameObject ufoPrefab;
 
+	public GameObject leaderboardManagerObj;
+	public Leaderboard_Manager leaderboardManager;
 
 	// Use this for initialization
 	void Start ()
@@ -59,6 +61,8 @@ public class Round_Manager : MonoBehaviour {
 		guiController.syncWithRoundManager = true;
 		guiController.hideCanvas ();
 		//GUICONTROLLER addCenterText, setCenterTextInterval, addPowerup, hideCanvas, showCanvas
+
+		leaderboardManager = leaderboardManagerObj.GetComponent<Leaderboard_Manager> ();
 
 		playerController = playerObj.GetComponent<Player_Controller_VR> ();
 		this.playerController.setPlayerSpeed (0.0f);
@@ -231,11 +235,16 @@ public class Round_Manager : MonoBehaviour {
 		state = ROUND_STATE.END;
 		playerController.setPlayerSpeed (0.0f);
 		guiController.addCenterText ("TIME UP");
+
+		yield return new WaitForSeconds (1.0f);
+		leaderboardManager.StartCoroutine (leaderboardManager.StartEndGameLeaderboard(points));
+
+		/*
 		guiController.addCenterText ("RESET GAME IN 3");
 		guiController.addCenterText ("RESET GAME IN 2");
 		guiController.addCenterText ("RESET GAME IN 1");
 		yield return new WaitForSeconds (5.0f);
-		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);*/
 	}
 
 	IEnumerator EndGameCoroutine()
@@ -243,12 +252,16 @@ public class Round_Manager : MonoBehaviour {
 		OnRoundOver ();
 		state = ROUND_STATE.END;
 		playerController.setPlayerSpeed (0.0f);
-		guiController.addCenterText ("FINISHED!");
-		guiController.addCenterText ("RESET GAME IN 3");
+		guiController.addCenterText ("FINISHED ALL 20 ROUNDS!");
+
+		yield return new WaitForSeconds (1.0f);
+		leaderboardManager.StartCoroutine (leaderboardManager.StartEndGameLeaderboard(points));
+
+		/*guiController.addCenterText ("RESET GAME IN 3");
 		guiController.addCenterText ("RESET GAME IN 2");
 		guiController.addCenterText ("RESET GAME IN 1");
 		yield return new WaitForSeconds (5.0f);
-		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);*/
 	}
 
 	public void spawnAnimals(int num)
