@@ -21,7 +21,7 @@ public class Round_Data : MonoBehaviour
 			roundData [i].roundNumber = i + 1;
 			roundData [i].animalsNeeded = i + 3;
 			roundData [i].animalsSpawned = (i + 3) * 2;
-			roundData [i].roundDuration = 10;
+			roundData [i].roundDuration = 90;
 			if (i == 1) {
 				alienCounter++;
 			}
