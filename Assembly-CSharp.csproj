@@ -103,6 +103,8 @@
      <None Include="Assets\GoogleVR\Distortion\GvrDistortion.cginc" />
      <None Include="Assets\GoogleVR\Resources\UnlitTexture.shader" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\TSF\Shaders\TSFOutline.shader" />
+     <None Include="Assets\TSF\Shaders\TSF.shader" />
      <None Include="Assets\GoogleVR\Resources\UI\GvrReticleShader.shader" />
      <None Include="Assets\GoogleVR\Resources\SolidColor.shader" />
  <Reference Include="UnityEngine.UI">

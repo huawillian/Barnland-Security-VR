@@ -43,7 +43,7 @@ public class Animal_Controller : MonoBehaviour
 		agent = this.GetComponent<NavMeshAgent> ();
 		player = GameObject.FindGameObjectWithTag ("Player");
 		this.destination.transform.parent = this.transform.parent;
-		StartCoroutine (setStateMoving());
+		StartCoroutine ("setStateMoving");
 	}
 
 	// Set Event Listeners on enable
@@ -90,7 +90,7 @@ public class Animal_Controller : MonoBehaviour
 			this.StopAllCoroutines();
 			this.agent.enabled = true;
 			this.alien = null;
-			StartCoroutine (setStateMoving ());
+			StartCoroutine ("setStateMoving");
 		}
 	}
 
@@ -103,7 +103,7 @@ public class Animal_Controller : MonoBehaviour
 		hayCoroutine = null;
 
 		if (state == ANIMAL_STATE.LURED) {
-			StartCoroutine (setStateMoving ());
+			StartCoroutine ("setStateMoving");
 		}
 	}
 
@@ -113,7 +113,7 @@ public class Animal_Controller : MonoBehaviour
 		setRandomDestination ();
 		yield return new WaitForSeconds (moveTimeInterval);
 		if (state == ANIMAL_STATE.MOVING) {
-			StartCoroutine (setStateMoving ());
+			StartCoroutine ("setStateMoving");
 		}
 	}
 
@@ -149,7 +149,13 @@ public class Animal_Controller : MonoBehaviour
 			}
 
 			this.StopAllCoroutines ();
-			StartCoroutine (setStateSaved());
+			StartCoroutine ("setStateSaved");
+		}
+
+		if (other.gameObject == this.destination && state == ANIMAL_STATE.MOVING) {
+		// If the object is the destination, then set new destination
+			this.StopAllCoroutines ();
+			StartCoroutine ("setStateMoving");
 		}
 	}
 
@@ -159,7 +165,7 @@ public class Animal_Controller : MonoBehaviour
 		if (this.alien == null) {
 			this.alien = alien;
 			this.StopAllCoroutines ();
-			StartCoroutine (setStateBeamed ());
+			StartCoroutine ("setStateBeamed");
 		}
 	}
 
