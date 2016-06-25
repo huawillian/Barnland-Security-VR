@@ -6,6 +6,8 @@ public class Round_Manager : MonoBehaviour {
 	// Events
 	public delegate void Round();
 	public static event Round OnRoundOver;
+	public static event Round OnGameStart;
+	public static event Round OnGameOver;
 
 	// Round States
 	public enum ROUND_STATE{END, START, PLAY};
@@ -107,7 +109,7 @@ public class Round_Manager : MonoBehaviour {
 		timeRoundRemaining = timeEnding - Time.time;
 
 		if (timeRoundRemaining <= 0 && state == ROUND_STATE.PLAY) {
-			StartCoroutine (ResetGameCoroutine());
+			StartCoroutine (EndGameCoroutine());
 		}
 	}
 
@@ -173,6 +175,10 @@ public class Round_Manager : MonoBehaviour {
 		
 	public void startRound(int roundNumber)
 	{
+		if (roundNumber == 1) {
+			OnGameStart ();
+		}
+
 		roundNum = roundNumber;
 
 		if (roundNum >= 21) {
@@ -229,30 +235,18 @@ public class Round_Manager : MonoBehaviour {
 		startRound ((roundNum + 1));
 	}
 
-	IEnumerator ResetGameCoroutine()
-	{
-		OnRoundOver ();
-		state = ROUND_STATE.END;
-		playerController.setPlayerSpeed (0.0f);
-		guiController.addCenterText ("TIME UP");
-
-		yield return new WaitForSeconds (1.0f);
-		leaderboardManager.StartCoroutine (leaderboardManager.StartEndGameLeaderboard(points));
-
-		/*
-		guiController.addCenterText ("RESET GAME IN 3");
-		guiController.addCenterText ("RESET GAME IN 2");
-		guiController.addCenterText ("RESET GAME IN 1");
-		yield return new WaitForSeconds (5.0f);
-		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);*/
-	}
-
 	IEnumerator EndGameCoroutine()
 	{
-		OnRoundOver ();
 		state = ROUND_STATE.END;
+		OnGameOver ();
+		OnRoundOver ();
 		playerController.setPlayerSpeed (0.0f);
-		guiController.addCenterText ("FINISHED ALL 20 ROUNDS!");
+
+		if (roundNum >= 20) {
+			guiController.addCenterText ("FINISHED ALL 20 ROUNDS!");
+		} else {
+			guiController.addCenterText ("Time up!");
+		}
 
 		yield return new WaitForSeconds (1.0f);
 		leaderboardManager.StartCoroutine (leaderboardManager.StartEndGameLeaderboard(points));

@@ -57,6 +57,7 @@
      <Compile Include="Assets\Plugins\Firebase\IFirebaseFactory.cs" />
      <Compile Include="Assets\Plugins\Firebase\IQuery.cs" />
      <Compile Include="Assets\Plugins\Firebase\miniJSON.cs" />
+     <Compile Include="Assets\Plugins\TestScript.cs" />
      <Compile Include="Assets\Plugins\iOS\DataSnapshotiOSImpl.cs" />
      <Compile Include="Assets\Plugins\iOS\FirebaseiOSImpl.cs" />
      <Compile Include="Assets\Plugins\iOS\QueryiOSImpl.cs" />
@@ -67,6 +68,7 @@
      <None Include="Assets\TSF\Shaders\TSFOutline.shader" />
      <None Include="Assets\TSF\Shaders\TSF.shader" />
      <None Include="Assets\GoogleVR\Resources\UI\GvrReticleShader.shader" />
+     <None Include="Assets\Particle Ribbon\readme_Simple_Particle_Ribbon.txt" />
      <None Include="Assets\GoogleVR\Resources\SolidColor.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

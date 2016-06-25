@@ -15,6 +15,9 @@ public class Powerup_Controller : MonoBehaviour
 
 	public float powerupDuration = 5.0f;
 
+	// Temphay spawn after getting hay powerup
+	public GameObject tempHayPrefab;
+
 	// Set Event Listeners on enable
 	void OnEnable()
 	{
@@ -49,6 +52,7 @@ public class Powerup_Controller : MonoBehaviour
 				break;
 			case Powerup_Controller.POWERUP_TYPE.HAY:
 				OnHayPowerUp (powerupDuration);
+				Instantiate (tempHayPrefab, this.transform.position, Quaternion.identity);
 				break;
 			case Powerup_Controller.POWERUP_TYPE.TRACTOR:
 				OnTractorPowerUp (powerupDuration);

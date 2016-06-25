@@ -45,7 +45,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Firebase_Leaderboard_Controller.cs" />
      <Compile Include="Assets\GoogleVR\DemoScenes\ControllerDemo\ControllerDebugInfo.cs" />
      <Compile Include="Assets\GoogleVR\DemoScenes\ControllerDemo\ControllerDemoManager.cs" />
      <Compile Include="Assets\GoogleVR\DemoScenes\HeadsetDemo\FPS.cs" />
@@ -86,26 +85,32 @@
      <Compile Include="Assets\GoogleVR\Scripts\VRDevices\EditorDevice.cs" />
      <Compile Include="Assets\GoogleVR\Scripts\VRDevices\GvrDevice.cs" />
      <Compile Include="Assets\GoogleVR\Scripts\VRDevices\iOSDevice.cs" />
-     <Compile Include="Assets\Leaderboard_Manager.cs" />
+     <Compile Include="Assets\Particle Ribbon\Scripts\ReverseNormals.cs" />
+     <Compile Include="Assets\Player_SoundController.cs" />
+     <Compile Include="Assets\Round_Start_Effect.cs" />
      <Compile Include="Assets\Scripts\Alien_Controller.cs" />
+     <Compile Include="Assets\Scripts\Alien_Smoke_Effect.cs" />
      <Compile Include="Assets\Scripts\Animal_Controller.cs" />
      <Compile Include="Assets\Scripts\EventManager.cs" />
+     <Compile Include="Assets\Scripts\Firebase_Leaderboard_Controller.cs" />
      <Compile Include="Assets\Scripts\GUI_Controller.cs" />
      <Compile Include="Assets\Scripts\Gaze_Controller.cs" />
+     <Compile Include="Assets\Scripts\Leaderboard_Manager.cs" />
+     <Compile Include="Assets\Scripts\Menu_Gaze_Effect.cs" />
      <Compile Include="Assets\Scripts\Menu_Manager.cs" />
      <Compile Include="Assets\Scripts\Player_Controller_VR.cs" />
      <Compile Include="Assets\Scripts\Powerup_Controller.cs" />
      <Compile Include="Assets\Scripts\Round_Data.cs" />
      <Compile Include="Assets\Scripts\Round_Manager.cs" />
      <Compile Include="Assets\Scripts\gazetest.cs" />
-     <Compile Include="Assets\TestScript.cs" />
-     <Compile Include="Assets\lol.cs" />
+     <Compile Include="Assets\TempHay.cs" />
      <None Include="Assets\GoogleVR\Distortion\GvrDistortion.cginc" />
      <None Include="Assets\GoogleVR\Resources\UnlitTexture.shader" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\TSF\Shaders\TSFOutline.shader" />
      <None Include="Assets\TSF\Shaders\TSF.shader" />
      <None Include="Assets\GoogleVR\Resources\UI\GvrReticleShader.shader" />
+     <None Include="Assets\Particle Ribbon\readme_Simple_Particle_Ribbon.txt" />
      <None Include="Assets\GoogleVR\Resources\SolidColor.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

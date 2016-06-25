@@ -20,6 +20,9 @@ public class Alien_Controller : MonoBehaviour
 	//rigidbody
 	public Rigidbody rigidbody;
 
+	//beam
+	public GameObject beam;
+
 	// Use this for initialization
 	void Start () {
 		this.rigidbody = this.GetComponent<Rigidbody> ();
@@ -29,6 +32,8 @@ public class Alien_Controller : MonoBehaviour
 	// State Coroutines
 	private IEnumerator setStateSearching()
 	{
+		beam.SetActive (false);
+
 		state = ALIEN_STATE.SEARCHING;
 
 		GameObject[] objs = GameObject.FindGameObjectsWithTag ("Animal");
@@ -52,6 +57,8 @@ public class Alien_Controller : MonoBehaviour
 
 	private IEnumerator setStateMoving()
 	{
+		beam.SetActive (false);
+
 		state = ALIEN_STATE.MOVING;
 
 		while (true) {
@@ -74,6 +81,7 @@ public class Alien_Controller : MonoBehaviour
 		state = ALIEN_STATE.CAPTURING;
 		this.rigidbody.velocity = Vector3.zero;
 
+		beam.SetActive (true);
 		yield return new WaitForSeconds (captureTimeInterval);
 
 		if (state == ALIEN_STATE.CAPTURING) {
@@ -85,6 +93,8 @@ public class Alien_Controller : MonoBehaviour
 
 	private IEnumerator setStateStunned(float time)
 	{
+		beam.SetActive (false);
+
 		state = ALIEN_STATE.STUNNED;
 		this.rigidbody.velocity = Vector3.zero;
 		yield return new WaitForSeconds (time);

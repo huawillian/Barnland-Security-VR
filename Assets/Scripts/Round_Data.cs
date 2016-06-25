@@ -19,14 +19,14 @@ public class Round_Data : MonoBehaviour
 
 		for (int i = 0; i < 15; i++) {
 			roundData [i].roundNumber = i + 1;
-			roundData [i].animalsNeeded = i + 3;
-			roundData [i].animalsSpawned = (i + 3) * 2;
+			roundData [i].animalsNeeded = i + 4;
+			roundData [i].animalsSpawned = (i + 3) * 3;
 			roundData [i].roundDuration = 90;
 			if (i == 1) {
 				alienCounter++;
 			}
 
-			if (i % 5 == 0 && i != 0) {
+			if (i % 4 == 0 && i != 0) {
 				alienCounter++;
 			}
 

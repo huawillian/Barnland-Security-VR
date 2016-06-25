@@ -36,14 +36,37 @@ public class Animal_Controller : MonoBehaviour
 
 	Coroutine hayCoroutine;
 
+	// animation reference
+	public GameObject animationObj;
+	private Animation runAnimation;
+
+	// animal sounds
+	private GvrAudioSource audioSource;
+	public AudioClip clip;
 
 	// Use this for initialization
 	void Start ()
 	{
 		agent = this.GetComponent<NavMeshAgent> ();
 		player = GameObject.FindGameObjectWithTag ("Player");
+		runAnimation = animationObj.GetComponent<Animation> ();
+
+		audioSource = gameObject.AddComponent<GvrAudioSource> ();
+		audioSource.clip = this.clip;
+		StartCoroutine ("PlayAnimalSounds", Random.Range(10.0f, 20.0f));
+
 		this.destination.transform.parent = this.transform.parent;
 		StartCoroutine ("setStateMoving");
+	}
+
+	IEnumerator PlayAnimalSounds()
+	{
+		while (true) {
+			if (state == ANIMAL_STATE.MOVING) {
+				audioSource.Play ();
+			}
+			yield return new WaitForSeconds (Random.Range(10.0f, 20.0f));
+		}
 	}
 
 	// Set Event Listeners on enable
@@ -98,6 +121,8 @@ public class Animal_Controller : MonoBehaviour
 	private IEnumerator setStateLured(float hayDuration)
 	{
 		state = ANIMAL_STATE.LURED;
+		runAnimation.Play ();
+
 		this.agent.destination = this.player.transform.position;
 		yield return new WaitForSeconds (hayDuration);
 		hayCoroutine = null;
@@ -110,6 +135,9 @@ public class Animal_Controller : MonoBehaviour
 	private IEnumerator setStateMoving()
 	{
 		state = ANIMAL_STATE.MOVING;
+		this.transform.rotation.eulerAngles.Set (0,0,0);
+		this.GetComponent<Rigidbody> ().angularVelocity = new Vector3 (0,0,0);
+		runAnimation.Play ();
 		setRandomDestination ();
 		yield return new WaitForSeconds (moveTimeInterval);
 		if (state == ANIMAL_STATE.MOVING) {
@@ -120,6 +148,7 @@ public class Animal_Controller : MonoBehaviour
 	private IEnumerator setStateSaved()
 	{
 		state = ANIMAL_STATE.SAVED;
+		runAnimation.Stop ();
 		Destroy (this.gameObject);
 		yield break;
 	}
@@ -127,8 +156,10 @@ public class Animal_Controller : MonoBehaviour
 	private IEnumerator setStateBeamed()
 	{
 		state = ANIMAL_STATE.BEAMED;
+		runAnimation.Stop ();
 		this.agent.enabled = false;
 		this.gameObject.GetComponent<Rigidbody> ().velocity = new Vector3 (0,3.0f,0);
+		this.GetComponent<Rigidbody> ().angularVelocity = new Vector3 (1,3,1);
 		yield return new WaitForSeconds (captureTime);
 		if (OnAnimalCaptured != null) {
 			OnAnimalCaptured (this.type);
@@ -173,9 +204,13 @@ public class Animal_Controller : MonoBehaviour
 	private void setRandomDestination()
 	{
 		Vector3 currPos = this.transform.position;
-		Vector3 newPos = new Vector3 (currPos.x + Random.Range(-15,15), 
-			currPos.y, 
-			currPos.z + Random.Range(-15,15));
+		Vector3 newPos = Vector3.zero;
+
+		do {
+			newPos = new Vector3 (currPos.x + Random.Range (-15, 15), 
+				currPos.y, 
+				currPos.z + Random.Range (-15, 15));
+		} while(!(newPos.x > -70f && newPos.x < 40f && newPos.z > -65f && newPos.z < 45f));
 
 		destination.transform.position = newPos;
 		agent.destination = newPos;

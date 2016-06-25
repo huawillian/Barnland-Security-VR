@@ -11,6 +11,7 @@ public class Gaze_Controller : MonoBehaviour
 	public static event Gaze GazeInstructions;
 	public static event Gaze GazeLeaderboard;
 	public static event Gaze GazeCredits;
+	public static event Gaze PlaySelectSound;
 
 	public delegate void GazeInput(string keyboard);
 	public static event GazeInput GazeInputKeyboard;
@@ -20,6 +21,8 @@ public class Gaze_Controller : MonoBehaviour
 
 	public void callEvent()
 	{
+		PlaySelectSound ();
+
 		switch (this.gameObject.name) {
 		case "menu_play":
 			GazePlay ();
