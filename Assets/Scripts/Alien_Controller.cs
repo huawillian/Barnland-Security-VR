@@ -11,7 +11,7 @@ public class Alien_Controller : MonoBehaviour
 	public float searchTimeInterval = 3.0f;
 	public float moveTimeInterval = 1.0f;
 	public Vector3 moveVelocity = Vector3.zero;
-	public float moveSpeed = 5.0f;
+	public float moveSpeed;
 	public float captureTimeInterval = 3.0f;
 
 	//target
@@ -147,7 +147,7 @@ public class Alien_Controller : MonoBehaviour
 
 	private void setVelocityTowardsAnimal()
 	{
-		Vector3 offset = animal.transform.position - this.transform.position + new Vector3(0,2,0);
+		Vector3 offset = animal.transform.position - this.transform.position + new Vector3(0,0,0);
 		moveVelocity = Vector3.zero;
 
 		if (offset.x > 0) {
@@ -169,8 +169,9 @@ public class Alien_Controller : MonoBehaviour
 		}
 
 		if (this.transform.position.y <= 0) {
-			moveVelocity = new Vector3 (moveVelocity.x, 0, moveVelocity.z);
+			moveVelocity = new Vector3 (moveVelocity.x, 3.0f, moveVelocity.z);
 		}
+
 
 		this.rigidbody.velocity = moveVelocity;
 	}

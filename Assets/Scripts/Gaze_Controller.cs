@@ -19,6 +19,36 @@ public class Gaze_Controller : MonoBehaviour
 	private Coroutine HoverSelectCoroutine = null;
 	public float hoverSelectTime;
 
+	public void callGazePlay()
+	{
+		GazePlay ();
+	}
+
+	public void callGazeInstructions()
+	{
+		GazeInstructions ();
+	}
+
+	public void callLeaderboard()
+	{
+		GazeLeaderboard ();
+	}
+
+	public void callCredits()
+	{
+		GazeCredits ();
+	}
+
+	public void callPlaySound()
+	{
+		PlaySelectSound ();
+	}
+
+	public void callGazeInputKeyboard(string c)
+	{
+		GazeInputKeyboard (c);
+	}
+
 	public void callEvent()
 	{
 		PlaySelectSound ();

@@ -40,10 +40,6 @@ public class Animal_Controller : MonoBehaviour
 	public GameObject animationObj;
 	private Animation runAnimation;
 
-	// animal sounds
-	private GvrAudioSource audioSource;
-	public AudioClip clip;
-
 	// Use this for initialization
 	void Start ()
 	{
@@ -51,24 +47,10 @@ public class Animal_Controller : MonoBehaviour
 		player = GameObject.FindGameObjectWithTag ("Player");
 		runAnimation = animationObj.GetComponent<Animation> ();
 
-		audioSource = gameObject.AddComponent<GvrAudioSource> ();
-		audioSource.clip = this.clip;
-		StartCoroutine ("PlayAnimalSounds", Random.Range(10.0f, 20.0f));
-
 		this.destination.transform.parent = this.transform.parent;
 		StartCoroutine ("setStateMoving");
 	}
-
-	IEnumerator PlayAnimalSounds()
-	{
-		while (true) {
-			if (state == ANIMAL_STATE.MOVING) {
-				audioSource.Play ();
-			}
-			yield return new WaitForSeconds (Random.Range(10.0f, 20.0f));
-		}
-	}
-
+		
 	// Set Event Listeners on enable
 	void OnEnable()
 	{

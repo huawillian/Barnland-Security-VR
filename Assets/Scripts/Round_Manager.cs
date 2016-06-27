@@ -25,6 +25,7 @@ public class Round_Manager : MonoBehaviour {
 	public float timeEnding = 0.0f;
 	public float timeRoundDuration = 90.0f;
 	public int points = 0;
+	int roundMax = 10;
 
 	public bool isPowerup = false;
 	public bool isBomb = false;
@@ -179,9 +180,10 @@ public class Round_Manager : MonoBehaviour {
 			OnGameStart ();
 		}
 
+
 		roundNum = roundNumber;
 
-		if (roundNum >= 21) {
+		if (roundNum > roundMax) {
 			StartCoroutine ("EndGameCoroutine");
 		}
 
@@ -232,7 +234,10 @@ public class Round_Manager : MonoBehaviour {
 		isSpawnPowerups = false;
 		yield return new WaitForSeconds (1.0f);
 
-		startRound ((roundNum + 1));
+		if (roundNum < roundMax) {
+			startRound ((roundNum + 1));
+		} else
+			StartCoroutine ("EndGameCoroutine");
 	}
 
 	IEnumerator EndGameCoroutine()
@@ -242,20 +247,14 @@ public class Round_Manager : MonoBehaviour {
 		OnRoundOver ();
 		playerController.setPlayerSpeed (0.0f);
 
-		if (roundNum >= 20) {
-			guiController.addCenterText ("FINISHED ALL 20 ROUNDS!");
+		if (roundNum >= roundMax) {
+			guiController.addCenterText ("FINISHED ALL " + roundMax + " ROUNDS!");
 		} else {
 			guiController.addCenterText ("Time up!");
 		}
 
 		yield return new WaitForSeconds (1.0f);
 		leaderboardManager.StartCoroutine (leaderboardManager.StartEndGameLeaderboard(points));
-
-		/*guiController.addCenterText ("RESET GAME IN 3");
-		guiController.addCenterText ("RESET GAME IN 2");
-		guiController.addCenterText ("RESET GAME IN 1");
-		yield return new WaitForSeconds (5.0f);
-		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);*/
 	}
 
 	public void spawnAnimals(int num)

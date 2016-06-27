@@ -11,22 +11,22 @@ public class Round_Data : MonoBehaviour
 		public float roundDuration;
 	}
 
-	public ROUND_VARIABLES[] roundData = new ROUND_VARIABLES[15];
+	public ROUND_VARIABLES[] roundData = new ROUND_VARIABLES[10];
 
 	void Awake()
 	{
 		int alienCounter = 0;
 
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 10; i++) {
 			roundData [i].roundNumber = i + 1;
-			roundData [i].animalsNeeded = i + 4;
-			roundData [i].animalsSpawned = (i + 3) * 3;
-			roundData [i].roundDuration = 90;
+			roundData [i].animalsNeeded = i + 3;
+			roundData [i].animalsSpawned = (i + 3) * 2;
+			roundData [i].roundDuration = 60;
 			if (i == 1) {
 				alienCounter++;
 			}
 
-			if (i % 4 == 0 && i != 0) {
+			if (i % 3 == 0 && i != 0) {
 				alienCounter++;
 			}
 

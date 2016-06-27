@@ -33,4 +33,20 @@ public class Menu_Gaze_Effect : MonoBehaviour
 		menuObj.transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
 	}
 
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.tag == "MainCamera") {
+			menuObj.transform.localScale = new Vector3 (1.2f, 1.2f, 1.2f);
+			particles.Play ();
+		}
+	}
+
+	void OnTriggerExit(Collider other)
+	{
+		if (other.tag == "MainCamera") {
+			menuObj.transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
+			particles.Stop ();
+		}
+	}
+
 }
