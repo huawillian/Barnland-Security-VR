@@ -120,8 +120,13 @@ public class Leaderboard_Manager : MonoBehaviour
 		guicontroller.hideCanvas ();
 		score = tempScore;
 		guicontroller.addCenterText ("Score: " + score);
-		this.hideLeaderboard ();
-		yield return new WaitForSeconds (3.0f);
+		//this.hideLeaderboard ();
+
+		yield return new WaitForSeconds (4.0f);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        /*
 		this.showLeaderboard ();
 
 		scoreObj.SetActive (true);
@@ -175,7 +180,10 @@ public class Leaderboard_Manager : MonoBehaviour
 			unavailableObj.SetActive(true);
 			returnToMainMenuObj.SetActive (true);
 		}
-	}
+
+    */
+
+    }
 
 	public bool isEntryHighScore(int tempScore)
 	{

@@ -5,7 +5,7 @@ public class Firebase_Leaderboard_Controller : MonoBehaviour
 {
 	IFirebase root;
 	IDataSnapshot shot;
-	public string url = "https://barnland-security-vr-test.firebaseio.com/Leaderboard/";
+	//public string url = "https://barnland-security-vr-test.firebaseio.com/Leaderboard/";
 
 	public bool dataRetrievalInProcess = false;
 	public float timeOutDuration = 5.0f;
@@ -25,7 +25,7 @@ public class Firebase_Leaderboard_Controller : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-		root = Firebase.CreateNew("https://barnland-security-vr-test.firebaseio.com/Leaderboard/");
+		//root = Firebase.CreateNew("https://barnland-security-vr-test.firebaseio.com/Leaderboard/");
 	}
 
 	public void resetLeaderboardOnFirebase()
@@ -39,9 +39,9 @@ public class Firebase_Leaderboard_Controller : MonoBehaviour
 
 	public void retrieveLeaderboardOnFirebase()
 	{
-		root.ValueUpdated += OnReceiveFirebaseData;
-		dataRetrievalInProcess = true;
-		StartCoroutine ("dataRetrievalTimeoutCoroutine");
+		//root.ValueUpdated += OnReceiveFirebaseData;
+		//dataRetrievalInProcess = true;
+		//StartCoroutine ("dataRetrievalTimeoutCoroutine");
 	}
 
 	void OnReceiveFirebaseData (object sender, FirebaseChangedEventArgs e) {

@@ -21,7 +21,7 @@ public class Animal_Controller : MonoBehaviour
 	public ANIMAL_STATE state = ANIMAL_STATE.MOVING;
 
 	// navagent
-	public NavMeshAgent agent;
+	public UnityEngine.AI.NavMeshAgent agent;
 	public float moveTimeInterval = 5.0f;
 
 	// alien capturing this animal
@@ -43,7 +43,7 @@ public class Animal_Controller : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		agent = this.GetComponent<NavMeshAgent> ();
+		agent = this.GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		player = GameObject.FindGameObjectWithTag ("Player");
 		runAnimation = animationObj.GetComponent<Animation> ();
 
